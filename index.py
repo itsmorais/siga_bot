@@ -9,6 +9,7 @@ login_siga = os.getenv("LOGIN_SIGA")
 senha_siga = os.getenv("SENHA_SIGA")
 email_outlook = os.getenv("EMAIL_OUTLOOK")
 senha_outlook = os.getenv("SENHA_OUTLOOK")
+email_destinatario = os.getenv("ENVIAR_EMAIL_PARA")
 
 
 
@@ -27,8 +28,9 @@ driver.find_element(By.XPATH,'//span[@id="ygtvlabelel11Span"]').click()
 sleep(10)
 frequencia = []
 
+quantidade_de_materias = len(driver.find_elements(By.XPATH,'//tr[@class="GridClearOdd"]'))
 
-for i in range(1,7):
+for i in range(1,quantidade_de_materias+1):
     materia = (driver.find_element(By.XPATH,f'//span[@id="span_vACD_DISCIPLINANOME_000{i}"]').text)
     presenca = (driver.find_element(By.XPATH,f'//span[@id="span_vPRESENCAS_000{i}"]').text)
     ausencia = (driver.find_element(By.XPATH,f'//span[@id="span_vAUSENCIAS_000{i}"]').text)
@@ -37,7 +39,7 @@ for i in range(1,7):
 
   
 formatted_data = ""
-for i in range(6):
+for i in range(quantidade_de_materias):
     formatted_data += f"Nome matéria: {frequencia[i][0]}\n"
     formatted_data += f"Presenças: {frequencia[i][1]}\n"
     formatted_data += f"Faltas: {frequencia[i][2]}\n"
@@ -56,7 +58,7 @@ sleep(10)
 
 driver.find_element(By.XPATH,'//button[@class="splitPrimaryButton root-191"]').click()
 sleep(10)
-driver.find_element(By.XPATH,'//div[@class="Z4n09 VbY1P T6Va1 EditorClass aoWYQ"]').send_keys("moraisdpm@Outlook.com")
+driver.find_element(By.XPATH,'//div[@class="Z4n09 VbY1P T6Va1 EditorClass aoWYQ"]').send_keys(email_destinatario)
 
 driver.find_element(By.XPATH,'//div[@class="dFCbN dPKNh DziEn"]').send_keys(formatted_data)
 sleep(15)
